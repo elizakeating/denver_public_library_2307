@@ -28,8 +28,16 @@ RSpec.describe Book do
   describe "#publication_year" do
     it "returns book's publication year" do
       book = Book.new({author_first_name: "Harper", author_last_name: "Lee", title: "To Kill a Mockingbird", publication_date: "July 11, 1960"})
-
+      
       expect(book.publication_year).to eq("1960")
+    end
+  end
+  
+  describe "#times_checked" do
+    it "returns the times checked" do
+      book = Book.new({author_first_name: "Harper", author_last_name: "Lee", title: "To Kill a Mockingbird", publication_date: "July 11, 1960"})
+      
+      expect(book.times_checked).to eq(0)
     end
   end
 
