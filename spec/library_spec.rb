@@ -54,4 +54,17 @@ RSpec.describe Library do
       expect(dpl.books).to eq([jane_eyre, professor, villette, mockingbird])
     end
   end
+
+  describe "#publication_time_frame_for" do
+    dpl = Library.new("Denver Public Library")
+
+      charlotte_bronte = Author.new({first_name: "Charlotte", last_name: "Bronte"})
+      jane_eyre = charlotte_bronte.write("Jane Eyre", "October 16, 1847")    
+      professor = charlotte_bronte.write("The Professor", "1857")
+      villette = charlotte_bronte.write("Villette", "1853")
+
+      dpl.add_author(charlotte_bronte)
+
+      expect(dpl.publication_time_frame_for(charlotte_bronte)).to eq({:start => "1847", :end => "1857"})
+  end
 end
