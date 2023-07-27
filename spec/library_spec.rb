@@ -81,7 +81,7 @@ RSpec.describe Library do
 
         dpl.add_author(charlotte_bronte)
 
-        dpl.checked_out_books.to eq([])
+        expect(dpl.checked_out_books).to eq([])
     end
   end
 
