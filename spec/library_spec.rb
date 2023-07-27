@@ -69,4 +69,85 @@ RSpec.describe Library do
         expect(dpl.publication_time_frame_for(charlotte_bronte)).to eq({:start => "1847", :end => "1857"})
     end
   end
+
+  describe "#checked_out_books" do
+    it "returns an array of books that have been checked out" do
+      dpl = Library.new("Denver Public Library")
+
+        charlotte_bronte = Author.new({first_name: "Charlotte", last_name: "Bronte"})
+        jane_eyre = charlotte_bronte.write("Jane Eyre", "October 16, 1847")    
+        professor = charlotte_bronte.write("The Professor", "1857")
+        villette = charlotte_bronte.write("Villette", "1853")
+
+        dpl.add_author(charlotte_bronte)
+
+        dpl.checked_out_books.to eq([])
+    end
+  end
+
+  describe "#checkout" do
+    it "checks out a book" do
+      dpl = Library.new("Denver Public Library")
+
+        charlotte_bronte = Author.new({first_name: "Charlotte", last_name: "Bronte"})
+        jane_eyre = charlotte_bronte.write("Jane Eyre", "October 16, 1847")    
+        professor = charlotte_bronte.write("The Professor", "1857")
+        villette = charlotte_bronte.write("Villette", "1853")
+
+        dpl.add_author(charlotte_bronte)
+
+        dpl.checkout(professor)
+
+        expect(dpl.checked_out_books).to eq([professor])
+
+        dpl.checkout(villette)
+
+        expect(dpl.checked_out_books).to eq([professor, villette])
+    end
+  end
+
+  describe "#return" do
+    it "removes a checked out book" do
+      dpl = Library.new("Denver Public Library")
+
+        charlotte_bronte = Author.new({first_name: "Charlotte", last_name: "Bronte"})
+        jane_eyre = charlotte_bronte.write("Jane Eyre", "October 16, 1847")    
+        professor = charlotte_bronte.write("The Professor", "1857")
+        villette = charlotte_bronte.write("Villette", "1853")
+
+        dpl.add_author(charlotte_bronte)
+
+        dpl.checkout(professor)
+        dpl.checkout(villette)
+
+        expect(dpl.checked_out_books).to eq([professor, villette])
+
+        dpl.return(villette)
+
+        expect(dpl.checked_out_books).to eq([professor])
+    end
+  end
+
+  describe "most_popular_book" do
+    it "returns the most popular book in the library" do
+      dpl = Library.new("Denver Public Library")
+
+        charlotte_bronte = Author.new({first_name: "Charlotte", last_name: "Bronte"})
+        jane_eyre = charlotte_bronte.write("Jane Eyre", "October 16, 1847")    
+        professor = charlotte_bronte.write("The Professor", "1857")
+        villette = charlotte_bronte.write("Villette", "1853")
+
+        dpl.add_author(charlotte_bronte)
+
+        dpl.checkout(professor)
+        dpl.checkout(villette)
+
+        dpl.return(villette)
+
+        dpl.checkout(jane_eyre)
+        dpl.checkout(villette)
+
+        expect(dpl.most_popular_book).to eq(villette)
+    end
+  end
 end
